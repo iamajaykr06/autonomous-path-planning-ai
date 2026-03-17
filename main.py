@@ -1,22 +1,38 @@
 # main.py
-# Entry point — we'll keep adding to this each day.
-
 from environment.grid_map import GridMap
+from environment.obstacle_generator import ObstacleGenerator
 
-# Create a 10x10 grid
-grid_map = GridMap(rows=10, cols=10)
+print("=" * 40)
+print("  MODE 1: Manual Walls")
+print("=" * 40)
+gmap1 = GridMap(rows=10, cols=10)
+gmap1.set_start(0, 0)
+gmap1.set_goal(9, 9)
+gen1 = ObstacleGenerator(gmap1)
+gen1.add_manual_walls([
+    (2,3),(3,3),(4,3),(5,3),(6,3),
+    (5,4),(5,5),(5,6),
+])
+gmap1.print_grid()
 
-# Set start and goal
-grid_map.set_start(0, 0)
-grid_map.set_goal(9, 9)
+print("\n" + "=" * 40)
+print("  MODE 2: Random Walls (density=0.25)")
+print("=" * 40)
+gmap2 = GridMap(rows=10, cols=10)
+gmap2.set_start(0, 0)
+gmap2.set_goal(9, 9)
+gen2 = ObstacleGenerator(gmap2)
+gen2.add_random_walls(density=0.25, seed=42)
+gmap2.print_grid()
 
-# Add some walls manually for today
-for r in range(2, 7):
-    grid_map.set_wall(r, 4)   # vertical wall
-for c in range(4, 8):
-    grid_map.set_wall(5, c)   # horizontal wall
+print("\n" + "=" * 40)
+print("  MODE 3: Pattern Walls (maze_like)")
+print("=" * 40)
+gmap3 = GridMap(rows=10, cols=10)
+gmap3.set_start(0, 0)
+gmap3.set_goal(9, 9)
+gen3 = ObstacleGenerator(gmap3)
+gen3.add_pattern_walls(pattern="maze_like")
+gmap3.print_grid()
 
-# Print it
-print("\n🗺️  Grid World — Day 1\n")
-grid_map.print_grid()
-print("\n S = Robot Start | G = Goal | ### = Wall\n")
+print("\n S = Start | G = Goal | ### = Wall\n")
